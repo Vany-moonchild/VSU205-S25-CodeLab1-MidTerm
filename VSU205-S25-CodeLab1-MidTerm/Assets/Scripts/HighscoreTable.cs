@@ -87,6 +87,7 @@ public class HighscoreTable : MonoBehaviour
         }
 
         transformList.Add(entryTransform);
+        
     }
 
     public void UpdateCurrentScore(int amount)
@@ -132,7 +133,16 @@ public class HighscoreTable : MonoBehaviour
         Debug.Log("SaveHighscores is being called:" + highscores.highscoreEntryList.Count);
         string json = JsonUtility.ToJson(highscores, true);
         File.WriteAllText(filePath, json);
+
+        ReloadHighscores();
     }
+
+    public void ReloadHighscores()
+    {
+        LoadHighscores();
+        // Debug.Log("SaveHighscores:" + json);
+    }
+    
 
     [System.Serializable]
     private class Highscores
