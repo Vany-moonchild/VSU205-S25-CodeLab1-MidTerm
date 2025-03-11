@@ -39,7 +39,7 @@ public class ASCIILevelLoader : MonoBehaviour
     GameObject levelHolder;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
+    public void SetUpLevel()
     {
         CurrentLevel = 0; //set the level to 0 at load level 0 at the start
     }

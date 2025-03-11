@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -14,6 +15,8 @@ public class HighscoreTable : MonoBehaviour
     public TextMeshProUGUI scoreText; // UI Text for score display
     public int currentScore = 0; // Current score in the game
     private string filePath;
+
+    public GameObject parent;
 
     private void Awake()
     {
@@ -46,8 +49,15 @@ public class HighscoreTable : MonoBehaviour
         foreach (HighscoreEntry highscoreEntry in highscores.highscoreEntryList)
         {
             CreateHighscoreEntryTransform(highscoreEntry, entryContainer, highscoreEntryTransformList);
+            Debug.Log(highscoreEntry.name);
         }
     }
+
+    void Start()
+    {
+        parent.SetActive(false);
+    }
+
 
     private void CreateHighscoreEntryTransform(HighscoreEntry highscoreEntry, Transform container, List<Transform> transformList)
     {
@@ -81,13 +91,21 @@ public class HighscoreTable : MonoBehaviour
 
     public void UpdateCurrentScore(int amount)
     {
+
         currentScore += amount;
         scoreText.text = currentScore.ToString();
+        Debug.Log("currentScore" + currentScore);
+        
+        //Debug.Log(currentScore + " / " + highscoreEntryTransformList.Count);
     }
 
     public void AddHighScoreEntry(int score, string name)
     {
+ 
+        
+        Debug.Log("Adding highscore entry");
         Highscores highscores = LoadHighscores();
+        Debug.Log("AddHighScoreEntry: "+score + " " + name);
         highscores.highscoreEntryList.Add(new HighscoreEntry { score = score, name = name });
         SaveHighscores(highscores);
     }
@@ -100,6 +118,7 @@ public class HighscoreTable : MonoBehaviour
         }
 
         string json = File.ReadAllText(filePath);
+        Debug.Log("Highscores LoadHighscores:" + json);
         return JsonUtility.FromJson<Highscores>(json) ?? new Highscores { highscoreEntryList = new List<HighscoreEntry>() };
     }
 
@@ -110,6 +129,7 @@ public class HighscoreTable : MonoBehaviour
             Directory.CreateDirectory(Path.GetDirectoryName(filePath));
         }
 
+        Debug.Log("SaveHighscores is being called:" + highscores.highscoreEntryList.Count);
         string json = JsonUtility.ToJson(highscores, true);
         File.WriteAllText(filePath, json);
     }

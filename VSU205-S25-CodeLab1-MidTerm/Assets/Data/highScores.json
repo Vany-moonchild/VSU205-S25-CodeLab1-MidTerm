@@ -1,11 +1,7 @@
 {
     "highscoreEntryList": [
         {
-            "score": 160,
-            "name": "Player"
-        },
-        {
-            "score": 50,
+            "score": 100,
             "name": "Vany"
         },
         {
@@ -13,20 +9,12 @@
             "name": "Rhodes"
         },
         {
-            "score": 30,
-            "name": "Charlie"
+            "score": 150,
+            "name": "Van"
         },
         {
-            "score": 20,
-            "name": "Ileana"
-        },
-        {
-            "score": 10,
-            "name": "Sandra"
-        },
-        {
-            "score": 0,
-            "name": "Player"
+            "score": 50,
+            "name": "van"
         }
     ]
 }

@@ -5,7 +5,8 @@ public class Timer : MonoBehaviour
 {
     public static Timer instance; 
 
-    public float timeRemaining = 60f; // Set the game duration
+    public float timeRemaining = 30; // Set the game duration
+    
     public bool isTimerRunning = false; 
 
     public TextMeshProUGUI timerText; // Assign this in the Unity Inspector
@@ -22,16 +23,20 @@ public class Timer : MonoBehaviour
     {
         if (isTimerRunning)
         {
-            if (timeRemaining > 0)
+            if (timeRemaining <= 0)
             {
-                timeRemaining -= Time.deltaTime;
-                UpdateTimerUI();
+                timeRemaining = 0;
+                timerText.text = "00:00";
+                isTimerRunning = false;
+                GameManager.instance.GameOver();
+                Debug.Log(" time remaining is over");
+
             }
             else
             {
-                timeRemaining = 0;
-                isTimerRunning = false;
-                EndGame();
+                
+                timeRemaining -= Time.deltaTime;
+                UpdateTimerUI();
             }
         }
     }
@@ -46,15 +51,19 @@ public class Timer : MonoBehaviour
         int minutes = Mathf.FloorToInt(timeRemaining / 60);
         int seconds = Mathf.FloorToInt(timeRemaining % 60);
         timerText.text = $"{minutes:00}:{seconds:00}";
+        
+        
     }
 
     private void EndGame()
     {
-        if (HighscoreTable.instance != null)
-        {
-            string playerName = PlayerPrefs.GetString("PlayerName", "Unknown");
-            int finalScore = HighscoreTable.instance.currentScore;
-            HighscoreTable.instance.AddHighScoreEntry(finalScore, playerName);
-        }
+        GameManager.instance.GameOver();
+        
+        // if (HighscoreTable.instance != null)
+        // {
+        //     string playerName = PlayerPrefs.GetString("PlayerName", "Unknown");
+        //     int finalScore = HighscoreTable.instance.currentScore;
+        //     HighscoreTable.instance.AddHighScoreEntry(finalScore, playerName);
+        // }
     }
 }

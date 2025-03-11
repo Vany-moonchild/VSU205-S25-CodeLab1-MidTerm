@@ -4,37 +4,63 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public HighscoreTable highscoreTable; // Reference to HighscoreTable
-    public int currentScore = 0;
 
+    private string input;
+    
+    public ReadInput readInput;
+
+    public string playerName;
+    
     private void Awake()
     {
         if (instance == null)
             instance = this;
         else
             Destroy(gameObject);
-
-        highscoreTable = HighscoreTable.instance; // Access HighscoreTable instance
     }
 
     private void Start()
     {
         // Initialize the score display from HighscoreTable
-        highscoreTable.scoreText.text = currentScore.ToString();
+       // highscoreTable.scoreText.text = "Score:"; //;+ highscoreTable.scoreIncrease;
+
+
+
     }
 
-    public void UpdateScore(int scoreAmount)
+    public void GetInfo()
     {
-        currentScore += scoreAmount;
-        highscoreTable.UpdateCurrentScore(scoreAmount);
+        // Reference ReadInput and get the player's name
+        if (readInput != null)
+        {
+            playerName = readInput.GetInputName();
+            Debug.Log("Retrieved Player Name: " + playerName);
+            
+        }
+        else
+        {
+            Debug.LogWarning("ReadInput script not found in the scene!");
+        }
+        
+        
     }
+
+
 
     public void GameOver()
     {
+        Debug.Log("Game Over");
         // When the game ends, add the score to the highscore table
-        string playerName = "Player"; // Get player name, maybe from a UI input
-        highscoreTable.AddHighScoreEntry(currentScore, playerName);
+        GetInfo();
+        Debug.Log("Got the playerName:" + HighscoreTable.instance.gameObject.name);
+        HighscoreTable.instance.AddHighScoreEntry(HighscoreTable.instance.currentScore, playerName);
 
+        Debug.Log(HighscoreTable.instance.currentScore + " : " + playerName);
+        //Debug.Log(AddHighScoreEntry(highscoreTable.currentScore, playerName));
         // Reset the score after game over
-        currentScore = 0;
+        //highscoreTable.currentScore = 0;
     }
+    
+    
+    
 }

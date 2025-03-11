@@ -7,17 +7,37 @@ public class Food : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-     if (HighscoreTable.instance != null)
+        Debug.Log("Collision with: " + other.gameObject.name);
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Player is the one that collided with Food");
+            
+            scoreIncrease += 10;
+            
+            Debug.Log("Score: " + scoreIncrease);
+            
+            if (HighscoreTable.instance != null)
             {
-                HighscoreTable.instance.UpdateCurrentScore(scoreIncrease);
+                Debug.Log("OnCollisionEnter with Food, instance found" + scoreIncrease);
+                
+                
+                
+                HighscoreTable.instance.currentScore = scoreIncrease;
+                //HighscoreTable.instance.scoreText.text = HighscoreTable.instance.currentScore.ToString();
+                //Debug.Log("Score: " + HighscoreTable.instance.currentScore);
+                
             }
 
             RespawnFood();
+        }
+
         
     }
 
     private void RespawnFood()
     {
+
+        
         transform.position = new Vector3(
             Random.Range(-spawnRange, spawnRange),
             Random.Range(-spawnRange, spawnRange),
